@@ -7,9 +7,9 @@
 #include <climits>
 using namespace std;
 
-bool f(int x,int y){
-	return(x>y);
-}
+// bool greater(int x,int y){ this is how the greater comparator function works
+//	return x>y;
+//}
 
 void vector_demo(){
 	vector<long long int> arr = {11,2,3,14,5};
@@ -22,7 +22,7 @@ void vector_demo(){
 	}*/
 
 	cout<<endl;
-	bool present = binary_search(arr.begin(),arr.end(),2); // Binart search, first 2 parameters indicate searching range and third parameter indicates element to be searched for
+	bool present = binary_search(arr.begin(),arr.end(),2); // Binary search, first 2 parameters indicate searching range and third parameter indicates element to be searched for
 	cout<<present<<endl;
 	arr.push_back(100);
 	arr.push_back(100);
@@ -40,7 +40,7 @@ void vector_demo(){
 
 	cout<<*it<<"\t"<<*it2; // use * to access value at particular index
 	cout<<"\n"<<it2-it<<"\n"; // normal subtraction of indices. can't print it or it2 directly. it2-it is also the number of occurrences of value at it (in this case - 3)
-	sort(arr.begin(),arr.end(),f); // sorts in descending order
+	sort(arr.begin(),arr.end(),greater<long long int>()); // sorts in descending order
 
 	for(long long int &x:arr){ // modifiying values of array
 		x++;
@@ -141,7 +141,7 @@ void PowerOfSTL(){
 }
 
 int main(){
-	// vector_demo();
+	vector_demo();
 	// set_demo();
 	// map_demo();
 	// PowerOfSTL();

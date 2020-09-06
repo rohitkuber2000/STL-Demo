@@ -1,13 +1,10 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
-#include <map>
-#include <stack>
-#include <list>
-#include <deque>
-#include <queue>
+#include <bits/stdc++.h>
 using namespace std;
+
+// bool greater(int x,int y){ this is how the greater comparator function works
+//	return x>y;
+//}
 
 // Pairs
 void explainPair(){
@@ -83,6 +80,18 @@ void explainVector(){
 
 	v7.clear(); // erases all values in vector
 
+	vector<int> v8 = {3,1,14,34,21};
+	sort(v8.begin(),v8.end());
+	for(auto it = v8.begin();it!=v8.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+	sort(v8.begin(),v8.end(),greater<int>()); // sorting in descending order
+	for(auto it = v8.begin();it!=v8.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+
 }
 
 void explainList(){ // prefer vectors over list as vectors are much faster
@@ -143,9 +152,160 @@ void explainQueue(){ // FIFO
 	}
 	q.pop(); // as it is FIFO - first element is popped. [2,3,4,5]
 	cout<<q.back()<<" "<<q.front()<<endl; // print last and first element
+	q.back() = q.back()+5; // add 5 to value at back()
+	cout<<q.back()<<endl;
 	// Queues use LIFO - Last In First Out
 	// front = rear = -1, push-> ++rear, pop-> ++front
 
+}
+
+void explainPQ(){ // priority queue
+priority_queue<int> pq; // acts as max heap - pushes in descending order, pops from front.
+pq.push(5);
+pq.push(3);
+pq.push(10);
+pq.push(1);
+cout<<pq.top()<<endl;
+pq.pop();
+cout<<pq.top()<<endl;
+
+// if we want in ascending order - min heap
+priority_queue<int,vector<int>,greater<int>> pq1; // uses greater comparator function to store in ascending order
+pq1.push(1);
+pq1.push(10);
+pq1.push(5);
+pq1.push(0);
+cout<<pq1.top()<<endl;
+}
+
+void explainSet(){ // stores unique elements in sorted order
+	set<int> s; // unordered_set for no sort but no duplicate - O(1) insertion
+	s.insert(1);
+	s.insert(10); // inserts in ascending order
+	s.insert(3);
+	s.insert(3); // duplicate elements not allowed
+	for(auto it=s.begin();it!=s.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+	auto it = s.find(3); // returns iterator pointing to where 3 is
+	auto it1 = s.find(6); // returns pointer to s.end() if element not found. This can be used to check if element exists in set or not
+	if(it1!=s.end()){
+		cout<<"Element found!"<<endl;
+	}
+	else{
+		cout<<"Element not found!"<<endl;
+	}
+	s.erase(1); // can erase by value
+	auto it2 = s.find(3);
+	s.erase(it2); // can also erase by iterator
+	for(auto it=s.begin();it!=s.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+
+	set<int> s1;
+	s1.insert(2);
+	s1.insert(3);
+	s1.insert(1);
+	s1.insert(10);
+	s1.insert(8);
+	it1 = s1.find(1);
+	it2 = s1.find(8);
+	s1.erase(it1,it2); // upper bound ignored - removes 1,2,3
+	for(it=s1.begin();it!=s1.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+
+	// Upper bound and lower bound functions also exist
+}
+
+void explainMultiSet(){
+	multiset<int> ms; // sorted but duplicate elements allowed
+	ms.insert(1);
+	ms.insert(4);
+	ms.insert(2);
+	ms.insert(3);
+	ms.insert(1);
+	ms.erase(1); // removes all 1's in set
+	ms.insert(2);
+	ms.insert(2);
+	cout<<ms.count(2)<<endl; // gives number of occurences of element
+	for(auto it = ms.begin();it!=ms.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+	// ms.erase(2) will erase all 2's. What if we want to just remove first 2.
+	ms.erase(ms.find(2)); // erases only first '2'
+	for(auto it = ms.begin();it!=ms.end();it++){
+		cout<<*it<<" ";
+	}
+	// ms.erase(ms.find(1),ms.find(1)+2); // can erase ranges too
+}
+
+void explainMap(){
+	map<int,int> mp; // key,value pairs
+	map<string,pair<int,int>> mp1;
+	mp[1] = 2; // inserting a key-value pair
+	mp.insert({2,3});
+	mp[4] = 5;
+	mp[3] = 6; 
+	// maps are sorted according to the key
+	mp1["Name"] = {10,20};
+	for(auto it : mp){
+		cout<<it.first<<":"<<it.second<<endl;
+	}
+	cout<<mp1["Name"].first<<" "<<mp1["Name"].second<<endl;
+	auto it = mp.find(1); // points to 1
+}
+
+bool comp(pair<int,int>p1,pair<int,int>p2){
+	if(p1.second<p2.second)
+		return true;
+	else if(p2.second==p1.second){
+		if(p1.first>p2.first)
+			return true;
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
+void extra(){
+	vector<int> v;
+	v.push_back(2); v.push_back(1); v.push_back(3);
+	sort(v.begin(),v.end(),greater<int>()); // sort in descending order - without <greater> it'll print in ascending order
+	for(auto it = v.begin();it!=v.end();it++){
+		cout<<*it<<" ";
+	}
+	cout<<endl;
+	// write a function to sort pairs based on second element. if second same, sort based on first in descending order
+	// {{1,2},{2,1},{4,1}}
+	pair<int,int> a[] = {{1,2},{2,1},{4,1}};
+	sort(a,a+3,comp);
+	for(auto it : a){
+		cout<<it.first<<" ";
+	}
+	cout<<endl;
+	int num = 6;
+	int count = __builtin_popcount(num); // gives number of 1's in the number
+	cout<<count<<endl;
+	// if number too big, use __builtin_popcountll(num)
+	string s = "123";
+	do{
+		cout<<s<<" ";
+	}
+	while(next_permutation(s.begin(),s.end())); // prints all permutations greater than starting permutation
+	int arr[] = {5,1,2,32,12,1};
+	cout<<endl;
+	cout<<*max_element(arr,arr+6); // gives max element in an array
+}
+
+void second_max(unordered_set<int> s){
+	s.erase(*max_element(s.begin(),s.end()));
+	cout<<*max_element(s.begin(),s.end())<<endl;
 }
 
 int main(){
@@ -155,4 +315,12 @@ int main(){
 	// explainDeque();
 	// explainStack();
 	// explainQueue();
-}	
+	// explainPQ();
+	// explainSet(); // unordered set very useful - O(1) - no lower bound and upper bound applicable
+	// explainMultiSet();
+	// explainMap(); // maps don't store duplicate key-value pairs. Multimaps can store duplicate key-value pairs. mp[key] can't be used here. unordered_map can be used for faster insertion - it isn't sorted.
+	// use unordered_map or unordered_set if getting tle with set/map
+	// extra();
+	unordered_set<int> s = {1,2,5,32,23,1};
+	second_max(s);
+}
